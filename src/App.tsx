@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+const shuffle = (
+  arr: {
+    option: string;
+    isTrue: boolean;
+  }[]
+) => [...arr].sort(() => Math.random() - 0.5);
+
 function App() {
   const generateColor = () => {
     return Math.floor(Math.random() * 16777215).toString(16);
@@ -11,6 +18,10 @@ function App() {
     { option: generateColor(), isTrue: true },
     { option: generateColor(), isTrue: false },
   ]);
+  useEffect(() => {
+    const list = shuffle(options);
+    setOptions(list);
+  }, []);
   const bgColor = options.filter((item) => item.isTrue === true)[0].option;
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,7 +31,7 @@ function App() {
     <div>
       <h1>Choose the right color:</h1>
       <div className="w-10 h-10" style={{ backgroundColor: `#${bgColor}` }}>
-        color
+        {bgColor}
       </div>
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
         {options.map((option) => (
