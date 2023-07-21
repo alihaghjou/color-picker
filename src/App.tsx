@@ -3,6 +3,11 @@ import { generateColor, shuffle } from "./functions";
 import FormColor from "./FormColor";
 
 function App() {
+  const [result, setResult] = useState({
+    selected: "",
+    isTrue: false,
+    isSubmited: false,
+  });
   const [select, setSelect] = useState({ selected: "", isTrue: false });
   const [options, setOptions] = useState([
     { option: generateColor(), isTrue: false },
@@ -17,8 +22,12 @@ function App() {
   const bgColor = options.filter((item) => item.isTrue === true)[0].option;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(select);
-  }
+    setResult({
+      selected: select.selected,
+      isTrue: select.isTrue,
+      isSubmited: true,
+    });
+  };
   return (
     <div>
       <h1>Choose the right color:</h1>
@@ -31,6 +40,15 @@ function App() {
         setSelect={setSelect}
         options={options}
       />
+      {result.isSubmited && (
+        <div>
+          {result.isTrue ? (
+            <div>You gussed right</div>
+          ) : (
+            <div>Wrong, Correcr answer is {bgColor}</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
