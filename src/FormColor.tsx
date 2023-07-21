@@ -26,9 +26,6 @@ function FormColor({
   setSelect,
   isSubmited,
 }: typeProps) {
-  function goAgain() {
-    
-  }
   return (
     <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-6">
       <article className="grid grid-cols-2 gap-4">
@@ -48,7 +45,6 @@ function FormColor({
           </div>
         ))}
       </article>
-
       <button
         disabled={isSubmited}
         type="submit"
