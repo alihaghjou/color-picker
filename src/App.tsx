@@ -12,7 +12,6 @@ function App() {
     { option: generateColor(), isTrue: false },
   ]);
   const bgColor = options.filter((item) => item.isTrue === true)[0].option;
-  const color = `w-10 h-10 bg-[#${bgColor}]`;
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log(select);
@@ -20,7 +19,9 @@ function App() {
   return (
     <div>
       <h1>Choose the right color:</h1>
-      <div className={color}>color</div>
+      <div className="w-10 h-10" style={{ backgroundColor: `#${bgColor}` }}>
+        color
+      </div>
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
         {options.map((option) => (
           <div key={option.option}>
