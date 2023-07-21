@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    @apply w-screen bg-gradient-to-r from-[#403B4A] to-[#E7E9BB]
+}
