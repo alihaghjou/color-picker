@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
-import { generateColor, shuffle } from "./functions";
+import { useState } from "react";
 import FormColor from "./FormColor";
+import { useGetColors } from "./hooks";
 
 function App() {
+  const options = useGetColors();
   const [result, setResult] = useState({
     selected: "",
     isTrue: false,
     isSubmited: false,
   });
   const [select, setSelect] = useState({ selected: "", isTrue: false });
-  const [options, setOptions] = useState([
-    { option: generateColor(), isTrue: false },
-    { option: generateColor(), isTrue: false },
-    { option: generateColor(), isTrue: true },
-    { option: generateColor(), isTrue: false },
-  ]);
-  useEffect(() => {
-    const list = shuffle(options);
-    setOptions(list);
-  }, []);
   const bgColor = options.filter((item) => item.isTrue === true)[0].option;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!select.selected) return;
     setResult({
       selected: select.selected,
       isTrue: select.isTrue,
@@ -37,6 +29,7 @@ function App() {
           style={{ backgroundColor: `#${bgColor}` }}
         ></div>
         <FormColor
+          isSubmited={result.isSubmited}
           handleSubmit={handleSubmit}
           select={select}
           setSelect={setSelect}
@@ -45,10 +38,18 @@ function App() {
         {result.isSubmited && (
           <div className="text-center py-4">
             {result.isTrue ? (
-              <div>You gussed right</div>
+              <div>You gussed right!!!</div>
             ) : (
-              <div>Wrong, Correcr answer is <b className="underline">{bgColor}</b></div>
+              <div>
+                Wrong, Correcr answer is <b className="underline">{bgColor}</b>
+              </div>
             )}
+            <button
+              onClick={() => location.reload()}
+              className="ring-1 rounded ring-slate-600 py-2 px-4 mt-4 hover:bg-sky-700 hover:text-sky-300"
+            >
+              Go Again
+            </button>
           </div>
         )}
       </section>
