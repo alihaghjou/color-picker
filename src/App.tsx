@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-
-const shuffle = (
-  arr: {
-    option: string;
-    isTrue: boolean;
-  }[]
-) => [...arr].sort(() => Math.random() - 0.5);
+import { generateColor, shuffle } from "./functions";
+import FormColor from "./FormColor";
 
 function App() {
-  const generateColor = () => {
-    return Math.floor(Math.random() * 16777215).toString(16);
-  };
   const [select, setSelect] = useState({ selected: "", isTrue: false });
   const [options, setOptions] = useState([
     { option: generateColor(), isTrue: false },
@@ -23,7 +15,7 @@ function App() {
     setOptions(list);
   }, []);
   const bgColor = options.filter((item) => item.isTrue === true)[0].option;
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(select);
   }
@@ -33,24 +25,12 @@ function App() {
       <div className="w-10 h-10" style={{ backgroundColor: `#${bgColor}` }}>
         {bgColor}
       </div>
-      <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
-        {options.map((option) => (
-          <div key={option.option}>
-            <input
-              type="radio"
-              name="color"
-              id="1"
-              value={option.option}
-              onChange={(e) =>
-                setSelect({ selected: e.target.value, isTrue: option.isTrue })
-              }
-              checked={select.selected === option.option}
-            />
-            <label htmlFor="">#{option.option}</label>
-          </div>
-        ))}
-        <button type="submit">Submit</button>
-      </form>
+      <FormColor
+        handleSubmit={handleSubmit}
+        select={select}
+        setSelect={setSelect}
+        options={options}
+      />
     </div>
   );
 }
